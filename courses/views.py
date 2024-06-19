@@ -1,7 +1,9 @@
-from django.http import HttpResponse, HttpResponseRedirect,HttpResponseNotFound # type: ignore
-from django.shortcuts import redirect, render # type: ignore
-from django.urls import reverse # type: ignore
+from django.http import HttpResponse, HttpResponseRedirect,HttpResponseNotFound, Http404
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from datetime import date,datetime
+from . models import Course,Categories
+
 data ={
     "programming" : "Programming Courses",
     "web" : "Web Courses",
@@ -43,15 +45,21 @@ db = {
 def index(request):
 
     courses = [course for course in db["courses"] if course["isActive"] ==True]
-    categories = db["categories"]
+    categories = Categories.objects.all()
 
     return render(request,"courses/index.html",{
-        'courses' : courses,
+        'courses' : Course.objects.filter(isActive=1),
         'categories' : categories
     })
 
-def detail(request, course_name):
-    return HttpResponse(f'{course_name} detail page')
+def detail(request, slug):
+
+    course = get_object_or_404(Course, slug = slug)
+    
+    context = {
+        'course' : course
+    }
+    return render(request, "courses/detail.html", context )
 
 def getCoursesByCategory(request, category_name):
     try:
