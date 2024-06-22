@@ -24,10 +24,20 @@
             </div>
             <div class="col-9">
 
-                {% for course in courses %}
+                {% if page_obj|length == 0 %}
+                <div class="alert alert-warning">Kurs Bulunamadı.</div>
+                {% endif %}
+
+                {% for course in page_obj %}
                     {% include "courses/partials/_courseCard.html" %}
                 {% endfor %}
+                
+                {% include "courses/partials/_paginator.html" %}
+                
             </div>
         </div>
+        
     </div>
+
+    
 {% endblock content %}
