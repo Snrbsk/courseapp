@@ -1,15 +1,31 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.core.paginator import Paginator
 from . models import Course,Categories
+from courses.forms import CourseForm
+
 
 def index(request):
 
-    courses = Course.objects.filter(isActive=1)
+    courses = Course.objects.filter(isActive=1, isHome=True)
     categories = Categories.objects.all()
 
     return render(request,"courses/index.html",{
         'courses' : courses,
         'categories' : categories
+    })
+
+def search(request):
+    if "q" in request.GET and request.GET["q"] != "":
+        q = request.GET["q"]
+        courses = Course.objects.filter(isActive = True, title__contains =q).order_by("date")
+        categories = Categories.objects.all()
+    else:
+        return redirect("/course")
+
+
+    return render(request,'courses/search.html',{
+        'courses' : courses,
+        'categories' : categories,
     })
 
 def detail(request, slug):
@@ -21,12 +37,23 @@ def detail(request, slug):
     }
     return render(request, "courses/detail.html", context )
 
+def create_course(request):
+    if request.method == "POST":
+        form = CourseForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("/course")
+    else:   
+        form = CourseForm()
+    return render(request, "courses/createCourse.html", {"form":form})
+
 def getCoursesByCategory(request, slug):
 
     courses = Course.objects.filter(categories__slug=slug, isActive = True).order_by("date")
     categories = Categories.objects.all()
 
-    paginator = Paginator(courses,2)
+    paginator = Paginator(courses,3)
     page = request.GET.get('page',1)
     page_obj = paginator.get_page(page) 
 
@@ -34,8 +61,38 @@ def getCoursesByCategory(request, slug):
     print(page_obj.paginator.num_pages)
 
 
-    return render(request,'courses/index.html',{
+    return render(request,'courses/list.html',{
         'page_obj' : page_obj,
         'categories' : categories,
         'seciliKategori' : slug
     })
+
+def course_list(request):
+    courses = Course.objects.all()
+
+    return render(request,"courses/listCourse.html",{
+            'courses' : courses
+        })
+
+def course_edit(request,id):
+    course = get_object_or_404(Course, pk=id)
+
+    if(request.method == "POST"):
+        form= CourseForm(request.POST, instance=course)
+        form.save()
+        return redirect("course-list") 
+    else:
+        form= CourseForm(instance=course)
+    
+    return render(request,"courses/editCourse.html",{"form":form})
+
+def course_delete(request,id):
+    course = get_object_or_404(Course, pk=id)
+
+    if(request.method == "POST"):
+        course.delete()
+        return redirect("course-list") 
+    else:
+        form= CourseForm(instance=course)
+    
+    return render(request,"courses/deleteCourse.html",{"course":course})

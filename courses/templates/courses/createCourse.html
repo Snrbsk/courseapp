@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block page_title %}
+    Create Course
+{% endblock page_title %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <form action="{% url 'create-course' %}" method="POST" novalidate> 
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3 {% if field.errors %} invalid {% endif %}">
+                            <label for="{{form.field.id_for_table}}" class="form-label">{{field.label}}</label>
+                            {{field}}
+                            {% if field.errors %}
+                            <div class="alert alert-danger">{{field.errors}}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button class="btn btn-success"type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+{% endblock content %}

@@ -2,19 +2,30 @@
 <!--Navbar-->
 <nav class= "navbar navbar-expand-lg bg-primary navbar-dark" >
     <div class="container">
-        <a href="/" class="navbar-brand">Course App</a>
+        <a href='{% url "index" %}' class="navbar-brand">Course App</a>
 
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
-                <a href="/course" class="nav-link">Courses</a>
+                <a href='{% url "index" %}' class="nav-link">Courses</a>
             </li>
             <li class="nav-item">
-                <a href="/contact" class="nav-link">Contact</a>
+                <a href='{% url "create-course" %}' class="nav-link">Create Course</a>
             </li>
             <li class="nav-item">
-                <a href="/about" class="nav-link">About</a>
+                <a href='/admin' class="nav-link">Admin</a>
             </li>
-
+            <li class="nav-item">
+                <a href='{% url "course-list" %}' class="nav-link">Course List</a>
+            </li>
         </ul>
+        
+        <nav class="navbar bg-body-tertiary rounded">
+            <div class="container-fluid">
+                <form class="d-flex" action='{% url "search" %}'> 
+                    <input class="form-control me-0" type="text" name="q" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-danger" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
     </div>
 </nav>

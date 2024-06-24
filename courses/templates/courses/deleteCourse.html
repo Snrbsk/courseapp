@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block page_title %}
+    Delete Course
+{% endblock page_title %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <br><br>
+                Do you want to delete <strong>{{ course.title }}</strong> ?
+                <form action="" class="action" method="POST">
+                    {% csrf_token %}
+                    <a href="{% url 'course-list' %}" class="btn btn-success">No</a> 
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                    </form>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+{% endblock content %}

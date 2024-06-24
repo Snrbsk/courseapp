@@ -4,11 +4,11 @@ from courses.models import Course,Categories
 # Register your models here.
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("title","isActive","slug","category_list")
+    list_display = ("title","isActive","isHome","slug","category_list")
     list_display_links = ("title","slug")
     readonly_fields = ("slug",)
-    list_filter = ("isActive","categories")
-    list_editable = ("isActive",)
+    list_filter = ("isActive","isHome","categories")
+    list_editable = ("isActive","isHome",)
     search_fields = ("title","description")
 
     def category_list(self,obj):
