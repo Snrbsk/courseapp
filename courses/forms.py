@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import TextInput,Textarea,CheckboxInput,SelectMultiple
+from django.forms import TextInput,Textarea,CheckboxInput,SelectMultiple,ImageField
 from courses.models import Course
 
 # class CourseForm(forms.Form):
@@ -9,7 +9,7 @@ from courses.models import Course
 #         widget=forms.TextInput(attrs={"class" : "form-control"}),)
 #     description = forms.CharField(x
 #         widget=forms.Textarea(attrs={"class" : "form-control"}))
-#     imageUrl = forms.CharField(
+#     image = forms.CharField(
 #         widget=forms.TextInput(
 #             attrs={"class" : "form-control"}),)
 #     slug = forms.SlugField(
@@ -24,12 +24,11 @@ class CourseForm(forms.ModelForm):
         fields = '__all__'
         labels = {
             "title" : "Course Name",
-            "imageUrl" : "Image Url",
+            "image" : "Image Url",
         }
         widgets = {
             "title" : TextInput(attrs={"class":"form-control"}),
             "description" : Textarea(attrs={"class":"form-control"}),
-            "imageUrl" : TextInput(attrs={"class":"form-control"}),
             "slug" : TextInput(attrs={"class":"form-control"}),
             "categories" : SelectMultiple(attrs={"class":"form-control"}),
         }

@@ -39,7 +39,7 @@ def detail(request, slug):
 
 def create_course(request):
     if request.method == "POST":
-        form = CourseForm(request.POST)
+        form = CourseForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
@@ -78,7 +78,7 @@ def course_edit(request,id):
     course = get_object_or_404(Course, pk=id)
 
     if(request.method == "POST"):
-        form= CourseForm(request.POST, instance=course)
+        form= CourseForm(request.POST, request.FILES, instance=course)
         form.save()
         return redirect("course-list") 
     else:
@@ -96,3 +96,6 @@ def course_delete(request,id):
         form= CourseForm(instance=course)
     
     return render(request,"courses/deleteCourse.html",{"course":course})
+
+def upload(request):
+    return render(request, "courses/upload.html")
