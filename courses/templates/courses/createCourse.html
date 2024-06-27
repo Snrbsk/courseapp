@@ -14,16 +14,7 @@
                 <form action="{% url 'create-course' %}" method="POST" novalidate enctype="multipart/form-data"> 
                     {% csrf_token %}
 
-                    {% for field in form %}
-                        <div class="mb-3 {% if field.errors %} invalid {% endif %}">
-                            <label for="{{form.field.id_for_table}}" class="form-label">{{field.label}}</label>
-                            {{field}}
-                            {% if field.errors %}
-                            <div class="alert alert-danger">{{field.errors}}</div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-
+                    {% include "partials/_form.html" %}
                     <button class="btn btn-success"type="submit">Submit</button>
                 </form>
             </div>

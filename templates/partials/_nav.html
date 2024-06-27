@@ -4,28 +4,58 @@
     <div class="container">
         <a href='{% url "index" %}' class="navbar-brand">Course App</a>
 
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a href='{% url "index" %}' class="nav-link">Courses</a>
-            </li>
-            <li class="nav-item">
-                <a href='{% url "create-course" %}' class="nav-link">Create Course</a>
-            </li>
-            <li class="nav-item">
-                <a href='/admin' class="nav-link">Admin</a>
-            </li>
-            <li class="nav-item">
-                <a href='{% url "course-list" %}' class="nav-link">Course List</a>
-            </li>
-        </ul>
-        
-        <nav class="navbar bg-body-tertiary rounded">
-            <div class="container-fluid">
-                <form class="d-flex" action='{% url "search" %}'> 
-                    <input class="form-control me-0" type="text" name="q" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-danger" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a href='{% url "index" %}' class="nav-link">Courses</a>
+                </li>
+                {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a href='/admin' class="nav-link">Admin</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href='{% url "create-course" %}' class="nav-link">Create Course</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href='{% url "course-list" %}' class="nav-link">Course List</a>
+                </li>
+            </ul>
+            
+            <nav class="navbar bg-body-tertiary rounded">
+                <div class="container-fluid">
+                    <form class="d-flex" action='{% url "search" %}'> 
+                        <input class="form-control me-0" type="text" name="q" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+
+            <ul class="navbar-nav">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href='#' class="nav-link">Hoşgeldin {{user.username}} <3 </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href='{% url "user_logout" %}' class="nav-link">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href='{% url "change_password" %}' class="nav-link">Change Password</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href='{% url "user_login" %}' class="nav-link">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href='{% url "user_register" %}' class="nav-link">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>

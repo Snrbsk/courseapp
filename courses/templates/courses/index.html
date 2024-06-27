@@ -22,11 +22,14 @@
                 {% include "courses/partials/_categories.html" %}
             
             </div>
-            <div class="col-9">
+            <div class="col-6">
+
+                {% include "courses/partials/_slider.html" %}
 
                 {% if courses|length == 0 %}
                 <div class="alert alert-warning">Kurs Bulunamadı.</div>
                 {% endif %}
+
 
                 {% for course in courses %}
                     {% include "courses/partials/_courseCard.html" %}
@@ -35,6 +38,7 @@
                 {% include "courses/partials/_paginator.html" %}
                 
             </div>
+            <div class="col-3"></div>
         </div>
         
     </div>

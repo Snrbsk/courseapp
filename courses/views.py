@@ -1,17 +1,21 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.core.paginator import Paginator
-from . models import Course,Categories
+from . models import Course,Categories, Slider
 from courses.forms import CourseForm
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def index(request):
 
     courses = Course.objects.filter(isActive=1, isHome=True)
     categories = Categories.objects.all()
+    sliders = Slider.objects.filter(isActive=True)
 
     return render(request,"courses/index.html",{
         'courses' : courses,
-        'categories' : categories
+        'categories' : categories,
+        'sliders' : sliders,
+
     })
 
 def search(request):
@@ -37,6 +41,10 @@ def detail(request, slug):
     }
     return render(request, "courses/detail.html", context )
 
+def isAdmin(user):
+    return user.is_superuser
+
+@user_passes_test(isAdmin)
 def create_course(request):
     if request.method == "POST":
         form = CourseForm(request.POST, request.FILES)
@@ -74,7 +82,11 @@ def course_list(request):
             'courses' : courses
         })
 
+@login_required()
 def course_edit(request,id):
+    if not request.user.is_authenticated:
+        return redirect("user_login")
+    
     course = get_object_or_404(Course, pk=id)
 
     if(request.method == "POST"):
@@ -86,7 +98,11 @@ def course_edit(request,id):
     
     return render(request,"courses/editCourse.html",{"form":form})
 
+@login_required()
 def course_delete(request,id):
+    if not request.user.is_authenticated:
+        return redirect("user_login")
+    
     course = get_object_or_404(Course, pk=id)
 
     if(request.method == "POST"):

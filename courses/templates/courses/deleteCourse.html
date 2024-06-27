@@ -15,8 +15,10 @@
                 Do you want to delete <strong>{{ course.title }}</strong> ?
                 <form action="" class="action" method="POST">
                     {% csrf_token %}
-                    <a href="{% url 'course-list' %}" class="btn btn-success">No</a> 
-                    <button type="submit" class="btn btn-danger">Yes</button>
+                    <br>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <a href="{% url 'course-list' %}" class="btn btn-danger">Back to List</a>  &nbsp&nbsp&nbsp
+                    <button type="submit" class="btn btn-success">Yes</button>
                     </form>
             </div>
             <div class="col-4"></div>
