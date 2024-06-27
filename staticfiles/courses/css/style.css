@@ -1,0 +1,14 @@
+body {
+    background-color: blanchedalmond;
+}
+
+.errorlist {
+    list-style-type: none;
+    color: rgb(161, 31, 31);
+    margin: 0;
+    padding: 0;
+}
+
+.invalid input,.invalid textarea {
+    border-color: #dc3545;
+}
